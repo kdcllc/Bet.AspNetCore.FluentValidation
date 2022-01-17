@@ -1,0 +1,13 @@
+
+POST https://localhost:8001/api/Todo/Create
+Content-Type: application/json
+
+{
+  "item": {
+    "title": "",
+    "isCompleted": true,
+    "userId": 0,
+    "createdOn": "2022-01-17T12:35:41.674Z",
+    "completedAt": null
+  }
+}
