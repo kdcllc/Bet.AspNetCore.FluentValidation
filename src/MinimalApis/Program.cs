@@ -1,9 +1,16 @@
+using Bet.AspNetCore.FluentValidation;
+using FluentValidation;
+using static Microsoft.AspNetCore.Http.Results;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 var app = builder.Build();
 
@@ -16,24 +23,21 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/", () => "Minimal Api FluentValidation Example");
+
+
+app.MapPost("/person", (Validated<Person> req) =>
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-       new WeatherForecast
-       (
-           DateTime.Now.AddDays(index),
-           Random.Shared.Next(-20, 55),
-           summaries[Random.Shared.Next(summaries.Length)]
-       ))
-        .ToArray();
-    return forecast;
+    // deconstruct to bool & Person
+    var (isValid, value) = req;
+
+    return isValid
+        ? Ok(value)
+        : ValidationProblem(req.Errors);
 })
-.WithName("GetWeatherForecast");
+.WithName("PostPerson");
+
 
 app.Run();
 
@@ -42,7 +46,13 @@ internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
 
-public partial class Program
+public record Person(string? Name, int? Age);
+
+public class PersonValidator : AbstractValidator<Person>
 {
-    // Expose the Program class for use with WebApplicationFactory<T>
+    public PersonValidator()
+    {
+        RuleFor(m => m.Name).NotEmpty();
+        RuleFor(m => m.Age).NotEmpty().GreaterThan(0);
+    }
 }

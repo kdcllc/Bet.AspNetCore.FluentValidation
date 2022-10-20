@@ -1,0 +1,6 @@
+﻿POST https://localhost:7186/person
+Content-Type: application/json
+
+{
+  "Name" : "kdcllc"
+}
