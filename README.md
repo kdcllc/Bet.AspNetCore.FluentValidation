@@ -30,3 +30,11 @@ If you like or are using this project to learn or start your solution, please gi
 - https://dotnetthoughts.net/dotnet-minimal-api-integration-testing/
 - [Minimal APIs in .NET 6 but where are the Unit Tests?](https://www.hanselman.com/blog/minimal-apis-in-net-6-but-where-are-the-unit-tests)\
 - https://github.com/CarterCommunity/Carter
+- https://vscode.dev/github/CodeMazeBlog/aspnet-core-configuration/tree/options-validation
+- https://vscode.dev/github/iron9light/FluentValidation.Extensions
+
+
+### Dev Containers
+
+- https://vscode.dev/github/microsoft/vscode-dev-containers/tree/v0.194.0/containers/dotnet/.devcontainer
+- https://vscode.dev/github/bradygaster/TodoApi
